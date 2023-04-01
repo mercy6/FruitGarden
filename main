@@ -1,0 +1,203 @@
+<?php
+
+// Класс фруктового дерева
+class FruitTree {
+    private $id;
+    private $type;
+    private $fruitCount;
+
+    public function __construct($id, $type, $fruitCount) {
+        $this->id = $id
+        $this->type = $type;
+        $this->fruitCount = $fruitCount;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getFruitCount() {
+        return $this->fruitCount;
+    }
+
+    // Метод для сбора плодов с дерева
+    public function harvest() {
+        $harvestedCount = $this->fruitCount;
+        $this->fruitCount = 0;
+        return $harvestedCount;
+    }
+}
+
+// Класс яблони, наследуемый от FruitTree
+class AppleTree extends FruitTree {
+    // Метод для генерации количества плодов
+    private function generateFruitCount() {
+        return rand(40, 50);
+    }
+
+    public function __construct($id) {
+        parent::__construct($id, 'apple', $this->generateFruitCount());
+    }
+}
+
+// Класс грушевого дерева, наследуемый от FruitTree
+class PearTree extends FruitTree {
+    // Метод для генерации количества плодов
+    private function generateFruitCount() {
+        return rand(0, 20);
+    }
+
+    public function __construct($id) {
+        parent::__construct($id, 'pear', $this->generateFruitCount());
+    }
+}
+
+// Класс сада
+class FruitGarden {
+    private $trees = [];
+
+    // Метод для добавления дерева в сад
+    public function addTree($tree) {
+        $this->trees[] = $tree;
+    }
+
+    // Метод для сбора плодов со всех деревьев в саду
+    public function harvestAllTrees() {
+        $totalApples = 0;
+        $totalPears = 0;
+
+        foreach ($this->trees as $tree) {
+            if ($tree instanceof AppleTree) {
+                $totalApples += $tree->harvest();
+            } elseif ($tree instanceof PearTree) {
+                $totalPears += $tree->harvest();
+            }
+        }
+
+        return ['apples' => $totalApples, 'pears' => $totalPears];
+    }
+}
+
+// Создаем сад и добавляем в него деревья
+$garden = new FruitGarden();
+for ($i = 1; $i <= 10; $i++) {
+    $garden->addTree(new AppleTree('A' . $i));
+}
+for ($i = 1; $i <= 15; $i++) {
+    $garden->addTree(new PearTree('P' . $i));
+}
+
+// Собираем плоды со всех деревьев и выводим общее количество собранных фруктов каждого вида
+$harvest = $garden->harvestAllTrees();
+echo "Total apples harvested: " . $harvest['apples']
+
+class Garden
+{
+    private $trees = [];
+
+    public function addTree(Tree $tree)
+    {
+        $this->trees[] = $tree;
+    }
+
+    public function harvest()
+    {
+        $totalApples = 0;
+        $totalPears = 0;
+
+        foreach ($this->trees as $tree) {
+            $totalApples += $tree->harvestApples();
+            $totalPears += $tree->harvestPears();
+        }
+
+        return ['apples' => $totalApples, 'pears' => $totalPears];
+    }
+
+    public function getTotalFruits()
+    {
+        $harvest = $this->harvest();
+
+        return [
+            'Total Apples: %d, Weight: %d-%d g',
+            'Total Pears: %d, Weight: %d-%d g'
+        ];
+    }
+}
+
+$garden = new Garden();
+
+// добавляем яблони
+for ($i = 1; $i <= 10; $i++) {
+    $tree = new AppleTree($i);
+    $garden->addTree($tree);
+}
+
+// добавляем грушевые деревья
+for ($i = 1; $i <= 15; $i++) {
+    $tree = new PearTree($i);
+    $garden->addTree($tree);
+}
+
+// собираем урожай
+$harvest = $garden->harvest();
+
+// выводим общее количество собранных фруктов
+printf(
+    $garden->getTotalFruits()[0] . PHP_EOL,
+    $harvest['apples'],
+    150,
+    180
+);
+
+printf(
+    $garden->getTotalFruits()[1] . PHP_EOL,
+    $harvest['pears'],
+    130,
+    170
+);
+
+public function getTotalWeight(): array
+{
+    $totalAppleWeight = $this->totalApples * rand(150, 180);
+    $totalPearWeight = $this->totalPears * rand(130, 170);
+
+    return [
+        'total_apple_weight' => $totalAppleWeight,
+        'total_pear_weight' => $totalPearWeight,
+    ];
+}
+
+class FruitGarden {
+    private $trees = array();
+    private $totalApples = 0;
+    private $totalPears = 0;
+    
+    public function addTree(Tree $tree) {
+        $this->trees[] = $tree;
+    }
+    
+    public function collectFruits() {
+        foreach ($this->trees as $tree) {
+            if ($tree instanceof AppleTree) {
+                $apples = $tree->collectApples();
+                $this->totalApples += count($apples);
+                echo "Собрано ".count($apples)." яблок с дерева номер ".$tree->getId()."\n";
+            } elseif ($tree instanceof PearTree) {
+                $pears = $tree->collectPears();
+                $this->totalPears += count($pears);
+                echo "Собрано ".count($pears)." груш с дерева номер ".$tree->getId()."\n";
+            }
+        }
+    }
+    
+    public function getTotalFruits() {
+        return array(
+            "apples" => $this->totalApples,
+            "pears" => $this->totalPears
+        );
+    }
+}
